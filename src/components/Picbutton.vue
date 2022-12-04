@@ -18,7 +18,9 @@
 </template>
 
 <script>
-import SampleCat from "../assets/SampleCat.jpg";
+import SampleCat from "@/assets/SampleCat.jpg";
+import soundClick from "@/assets/click.mp3";
+import pushBtn from "@/assets/mainBtn.mp3";
 
 export default {
   name: "HelloWorld",
@@ -33,11 +35,33 @@ export default {
     msg: String,
   },
   methods: {
-    togglePic() {
-      console.log(this.picSrc);
+    async togglePic() {
+      if (!this.isMute) {
+        this.playSound(pushBtn, 0.2);
+      }
+      this.fetchPic("https://aws.random.cat/meow");
+    },
+    fetchPic(url) {
+      fetch(url)
+        .then((res) => res.json())
+        .then((pic) => {
+          console.log(pic);
+          if (pic?.file) {
+            this.picSrc = pic.file;
+          } else {
+            this.picSrc = pic.url;
+          }
+        })
+        .catch(() => this.fetchPic("https://random.dog/woof.json"));
     },
     toggleMute() {
       this.isMute = !this.isMute;
+      this.playSound(soundClick, 0.05);
+    },
+    playSound(sound, vlm) {
+      let click = new Audio(sound);
+      click.volume = vlm;
+      click.play();
     },
   },
 };
@@ -53,7 +77,7 @@ export default {
   &_image {
     display: block;
     width: 100%;
-    min-height: 140px;
+    height: 240px;
     border: 1px solid rgb(157, 156, 156);
     margin-bottom: 72px;
     box-sizing: border-box;
