@@ -45,7 +45,6 @@ export default {
       fetch(url)
         .then((res) => res.json())
         .then((pic) => {
-          console.log(pic);
           if (pic?.file) {
             this.picSrc = pic.file;
           } else {
