@@ -14,6 +14,7 @@
       <img v-if="isMute" src="../assets/mute.png" alt="mute" />
       <img v-else src="../assets/unmute.png" alt="unmute" />
     </button>
+    <button class="app_testBtn" @click="testAndroidApi">Test Ui</button>
   </div>
 </template>
 
@@ -62,12 +63,25 @@ export default {
       click.volume = vlm;
       click.play();
     },
+    testAndroidApi() {
+      navigator.notification.confirm(
+        `Проверка использования интерфейса Android`,
+        () => {
+          if (this.isMute) {
+            this.toggleMute();
+          }
+        },
+        "Включить звук ?",
+        ["Подтвердить", "Отмена"]
+      );
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .app {
+  position: relative;
   margin: 0 16px;
   display: flex;
   flex-direction: column;
@@ -102,6 +116,9 @@ export default {
     }
   }
   &_muteBtn {
+    position: absolute;
+    right: 16px;
+    bottom: -12px;
     width: 42px;
     height: 42px;
     border-radius: 50%;
@@ -110,14 +127,33 @@ export default {
     font-weight: 900;
     color: #ffffff;
     box-shadow: 0 0 20px -2px black;
-    align-self: end;
     display: flex;
     justify-content: center;
     align-items: center;
     &:active {
-      width: 58px;
-      height: 58px;
+      transform: scale(1.2, 1.2);
       box-shadow: 0 0 5px 0 black;
+    }
+  }
+  &_testBtn {
+    position: absolute;
+    left: 24px;
+    bottom: -68px;
+    width: 84px;
+    height: 84px;
+    background-color: rgb(125, 191, 134);
+    border-radius: 50%;
+    border: 0;
+    font-weight: 900;
+    color: #ffffff;
+    box-shadow: 0 0 20px -2px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:active {
+      transform: scale(1.2, 1.2);
+      box-shadow: 0 0 5px 0 black;
+      background-color: rgba(125, 191, 134, 0.605);
     }
   }
 }
