@@ -66,9 +66,11 @@ export default {
     testAndroidApi() {
       navigator.notification.confirm(
         `Проверка использования интерфейса Android`,
-        () => {
-          if (this.isMute) {
-            this.toggleMute();
+        (buttonIndex) => {
+          if (buttonIndex == 1) {
+            if (this.isMute) {
+              this.toggleMute();
+            }
           }
         },
         "Включить звук ?",
